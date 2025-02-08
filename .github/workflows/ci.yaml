@@ -8,6 +8,9 @@ on:
     branches:
       - main
 
+env:
+  DJANGO_SECRET_KEY: gh-actions-example-key
+
 jobs:
   build:
     runs-on: ubuntu-latest
