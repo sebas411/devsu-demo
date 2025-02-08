@@ -2,7 +2,8 @@
 *.pot
 *.pyc
 __pycache__/
-.env*
 venv
+.git/
+.gitignore
 
 db.sqlite3

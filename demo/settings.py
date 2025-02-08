@@ -1,10 +1,21 @@
 import environ
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env = environ.Env()
+env = environ.Env(
+    DEBUG=(int, 0),
+    DJANGO_SECRET_KEY=(str, ''),
+    DJANGO_ALLOWED_HOSTS=(str, 'localhost 127.0.0.1 [::1]'),
+    SQL_ENGINE=(str, 'django.db.backends.sqlite3'),
+    SQL_DATABASE=(str, BASE_DIR / 'db.sqlite3'),
+    SQL_USER=(str, 'user'),
+    SQL_PASSWORD=(str, 'password'),
+    SQL_HOST=(str, 'localhost'),
+    SQL_PORT=(str, '5432'),
+)
 env.read_env(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
@@ -14,9 +25,9 @@ env.read_env(BASE_DIR / '.env')
 SECRET_KEY = env('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(env('DEBUG'))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env('DJANGO_ALLOWED_HOSTS').split(' ')
 
 
 # Application definition
@@ -76,8 +87,12 @@ WSGI_APPLICATION = 'demo.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / env('DATABASE_NAME'),
+        'ENGINE': env('SQL_ENGINE'),
+        'NAME': env('SQL_DATABASE'),
+        'USER': env('SQL_USER'),
+        'PASSWORD': env('SQL_PASSWORD'),
+        'HOST': env('SQL_HOST'),
+        'PORT': env('SQL_PORT'),
     }
 }
 
@@ -117,6 +132,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+try:
+    STATIC_ROOT = env('STATIC_ROOT')
+except:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
