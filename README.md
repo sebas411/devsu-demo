@@ -5,7 +5,7 @@ This is a simple application to be used in the technical test of DevOps.
 ## Getting Started
 
 ### Changes made
-- Change database to PostgreSQL
+- Parametrized the database to be able to use postgres for production and sqlite for development
 - Use gunicorn to serve the app
 
 ### Prerequisites
@@ -35,7 +35,11 @@ py manage.py migrate
 
 ### Database
 
-The database is managed with a PostgreSQL docker container.
+The database is generated as a file in the main path when the project is first run, and its name is `db.sqlite3`.
+
+Consider giving access permissions to the file for proper functioning.
+
+Note: The database for production is postgres.
 
 ## Usage
 
