@@ -5,5 +5,7 @@ __pycache__/
 venv
 .git/
 .gitignore
+.env*
+.coverage
 
 db.sqlite3

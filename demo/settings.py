@@ -15,6 +15,7 @@ env = environ.Env(
     SQL_PASSWORD=(str, 'password'),
     SQL_HOST=(str, 'localhost'),
     SQL_PORT=(str, '5432'),
+    STATIC_ROOT=(str, '')
 )
 env.read_env(BASE_DIR / '.env')
 
@@ -102,16 +103,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator', # noqa
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', # noqa
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator', # noqa
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator', # noqa
     },
 ]
 
@@ -132,9 +133,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-try:
+if env('STATIC_ROOT'):
     STATIC_ROOT = env('STATIC_ROOT')
-except:
+else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
