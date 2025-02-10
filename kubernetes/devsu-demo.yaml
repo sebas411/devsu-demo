@@ -1,0 +1,98 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  SQL_DATABASE: devsu
+  SQL_HOST: postgres
+  SQL_PORT: "5432"
+  SQL_ENGINE: django.db.backends.postgresql
+  DEBUG: "0"
+  DATABASE: postgres
+  DJANGO_ALLOWED_HOSTS: "localhost 127.0.0.1 [::1]"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devsu-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: devsu-app
+  template:
+    metadata:
+      labels:
+        app: devsu-app
+    spec:
+      containers:
+        - name: devsu-app
+          image: sebas411/devsu-demo:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: SQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: SQL_DATABASE
+            - name: SQL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: SQL_HOST
+            - name: SQL_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: SQL_PORT
+            - name: SQL_ENGINE
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: SQL_ENGINE
+            - name: DEBUG
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: DEBUG
+            - name: DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: DATABASE
+            - name: DJANGO_ALLOWED_HOSTS
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: DJANGO_ALLOWED_HOSTS
+            - name: SQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: DATABASE_USER
+            - name: SQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: DATABASE_PASSWORD
+            - name: DJANGO-SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: SECRET_KEY
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+spec:
+  selector:
+    app: devsu-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+  type: NodePort
