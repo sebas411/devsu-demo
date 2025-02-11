@@ -196,5 +196,5 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl set image deployment/devsu-app devsu-app=sebas411/devsu-demo:${{ github.sha }} --kubeconfig=kubeconfig
-          kubectl rollout status deployment/myapp --kubeconfig=kubeconfig
+          kubectl set image deployment/devsu-app devsu-app=sebas411/devsu-demo:${{ github.sha }}
+          kubectl rollout status deployment/myapp
