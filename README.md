@@ -2,11 +2,21 @@
 
 This is a simple application to be used in the technical test of DevOps.
 
-## Getting Started
+## Documentation
 
 ### Changes made
 - Parametrized the database to be able to use postgres for production and sqlite for development
 - Use gunicorn to serve the app
+
+### Deployment URL
+- http://ab8e05c97b7e24a37b6556951de5b303-66e7abf14e1f5ab5.elb.us-west-2.amazonaws.com/api/users
+
+### AWS diagram
+![cloud resources diagram](aws.png)
+
+### Kubernetes diagram
+![kubernetes diagram](kube.png)
+## Getting Started
 
 ### Prerequisites
 
