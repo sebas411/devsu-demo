@@ -1,0 +1,5 @@
+# The endpoint is censored for safety
+cluster_endpoint = "https://*****************************.gr7.us-west-2.eks.amazonaws.com"
+cluster_name = "eks-cluster"
+cluster_security_group_id = "sg-03d737ff3a8833e49"
+region = "us-west-2"
