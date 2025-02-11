@@ -169,3 +169,26 @@ jobs:
       - name: Run vulnerability scan
         run: |
           trivy image --exit-code=1 --severity=CRITICAL,HIGH sebas411/devsu-demo:latest
+
+  deploy:
+    needs: vulnerability_scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+
+      - name: Configure Kubernetes credentials
+        run: |
+          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > kubeconfig
+          export KUBECONFIG=kubeconfig
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl set image deployment/devsu-app devsu-app=sebas411/devsu-demo:${{ github.sha }} --kubeconfig=kubeconfig
+          kubectl rollout status deployment/myapp --kubeconfig=kubeconfig
