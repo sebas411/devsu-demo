@@ -9,6 +9,8 @@ This is a simple application to be used in the technical test of DevOps.
 - Use gunicorn to serve the app
 
 ### Deployment URL
+- Note: As of 12/02/2025 23:00 UTC the endpoint has been closed to avoid excess costs from AWS services, if you need to see the application again you can write me an email and i can set it up again.
+- ![image](https://github.com/user-attachments/assets/c9c79c66-3fc4-4618-81f7-7f5ad4ca3c09)
 - http://ab8e05c97b7e24a37b6556951de5b303-66e7abf14e1f5ab5.elb.us-west-2.amazonaws.com/api/users
 
 ### AWS diagram
